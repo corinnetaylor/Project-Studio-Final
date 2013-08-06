@@ -54,6 +54,11 @@ public class FingerControl : MonoBehaviour {
 		}
 	
 	}
+	// REVIEW: in C#, getter / setter methods are ideally implemented
+	// as "properties" -- pseudo-variables that can execute code upon "get" or "set"
+	// so instead of isKeyDown(), you might declare at the top of this class instead:
+	//     public bool isKeyDown { get { return fingerDown; } }
+	// for more information, see: http://www.dotnetperls.com/property
 	
 	//getter used by the MainGameController
 	public bool isKeyDown(){
