@@ -61,22 +61,4 @@ public class LightMaker : MonoBehaviour {
 			theLight.enabled = false;	
 		}
 	}
-	
-	/*This method is unnecessary while color is changed dynamically in Update()
-	void setLightColor(){
-		
-		switch(colorPicker){
-		case 1: theLight.color = Color.red;
-			break;
-		case 2: theLight.color = Color.blue;
-			break;
-		case 3: theLight.color = Color.green;
-			break;
-		case 4: theLight.color = Color.yellow;
-			break;
-		}
-		
-		
-	}
-	*/
 }
