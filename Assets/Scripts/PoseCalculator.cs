@@ -3,6 +3,10 @@ using System.Collections;
 
 public class PoseCalculator : MonoBehaviour {
 	
+	// REVIEW: remember, you can concisely declare multiple members of the same
+	// type and access level using commas, e.g.:
+	// public Transform thumb, index, middle, ring, pinkie;
+	
 	//Assign each finger in inspector
 	public Transform thumb; //1
 	public Transform index; //2
@@ -26,6 +30,10 @@ public class PoseCalculator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+			// REVIEW: see comment in LightMaker.cs -- GetComponent<>() is expensive
+			// and it's often better to cache component references rather than fetching them
+			// every frame
+			
 			//Updates for the positions of the fingers
 			is1Down = thumb.GetComponent<FingerControl>().isKeyDown();
 			is2Down = index.GetComponent<FingerControl>().isKeyDown();
@@ -63,6 +71,9 @@ public class PoseCalculator : MonoBehaviour {
 		
 		
 	}
+	
+	// REVIEW: see comment in FingerControl.cs -- "get" and "set" type methods
+	// are ideally implemented as C# properties: http://www.dotnetperls.com/property
 	
 	public int getPoseNumber(){
 		
