@@ -17,7 +17,12 @@ public class LightMaker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {		
-
+		// REVIEW: GetComponent<>() is expensive because it looks through the entire gameObject
+		// to find a component with a matching type -- when, really, all you have to do is
+		// cache the reference in a PoseCalculator variable at Start()...
+		// also note that "transform" hides a GetComponent<>() call, which should be cached too...
+		// ... this isn't really an issue until you start doing it, like, 5000+ times a frame
+		// but it's something to be aware of, if you do make a game with 5000+ script instances
 
 		switch(theHand.GetComponent<PoseCalculator>().getPoseNumber()){
 		case 0: poseMade = false;

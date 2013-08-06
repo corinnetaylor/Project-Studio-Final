@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class HandAndMovement : MonoBehaviour {
+	// REVIEW: I'm not sure what you mean by "set mouse turn to the mouse position on screen"
+	// but ask me / show me / explain tomorrow in-class and we can figure it out!
 	
 	//This is a test script, I plan to move the hand control to a separate script on the hand
 	/* Problems to solve:
@@ -48,7 +50,15 @@ public class HandAndMovement : MonoBehaviour {
 				Debug.Log ("Switch to Movement Mode");
 			}
 			
+			// REVIEW: a concise way to toggle bools is to set it equal to "*not* the variable", e.g.:
+			// lightSwitch = !lightSwitch;
+			
 		}
+		
+		// REVIEW: with this implementation, it will be possible to look down >> look upside down
+		// ... you will probably want to keep a "rotationY" float var and clamp it before assigning it to the rotation
+		// ... confer https://github.com/radiatoryang/gamedev_july2013/blob/master/gamedev_week2/Assets/scripts/FishControl.cs
+		// ... which has the same idea, but doesn't do the clamping yet
 		
 		//Turning is determined by mouse movement
 		transform.Rotate (-Input.GetAxis ("Mouse Y")*Time.deltaTime  * mouseTurnSpeed,Input.GetAxis("Mouse X")*Time.deltaTime * mouseTurnSpeed,0f);
@@ -65,8 +75,10 @@ public class HandAndMovement : MonoBehaviour {
 					moveVectorHoriz = transform.right * Input.GetAxis("Horizontal");
 				
 					//Jump is enabled
-					if (Input.GetKey(KeyCode.Space)){ //Jump					
-						rigidbody.AddForce(transform.up * 500f);
+					if (Input.GetKey(KeyCode.Space)){ //Jump	
+						// REVIEW: be careful of using AddForce() in Update!
+						// also, try experimenting with different ForceMode parameters for AddForce() too
+						rigidbody.AddForce(transform.up * 500f); 
 						
 						//Dampen forward and horizontal motion down while the player is in the air to reduce the 'launching' effect
 						moveVectorVert *= jumpDamping;

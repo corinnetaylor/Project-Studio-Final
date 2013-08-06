@@ -44,6 +44,7 @@ public class OpenDoor : MonoBehaviour {
 	
 	}
 	
+	// REVIEW: C# style guidelines (and Unity) both recommend capitalizing class names and method names
 	public void doorOpen(){
 	
 		if (!startDoorClose){
