@@ -7,34 +7,34 @@ public class CastingArm : MonoBehaviour {
 	 * This script will control the casting arm, and interpret mouse clicks. It will instantiate Magic objects. It will allow the user to queue
 	 * up kinds of magic. It talks to the HandController script to get what poses the player is making.
 	 * 
+	 * Problems: Casting arm needs to move smoothly based on the camera
+	 * 
 	 * TODO: Work out how to instantiate spell objects at a slower rate, and to move in the direction that the mouse is pointing
 	 * */
 	
 	public Transform theHand;
-	public GameObject theSpell;
 	public Transform thePlayer;
+	public Transform dummyArm;
 	
 	//int colorPicker = 0;
 	bool poseMade = false;
 	Vector3 startPosition;
 	float damping = 5;
+	float forwardAmount = .5f;
 	int magicType;
 	
-	//casting coroutine
-//	public Rigidbody earthMagic;
-//	public Rigidbody fireMagic;
-//	public Rigidbody waterMagic;
-//	
-//	Rigidbody theMagic;
+	Vector3 goalPosition;
 	
 	// Use this for initialization
 	void Start () {
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {		
 		//Updates the base position of the arm each frame
-		startPosition = new Vector3(thePlayer.position.x + .9f, thePlayer.position.y + .3f, thePlayer.position.z + .5f);
+		//THIS HARDCODING NEEDS TO BE CHANGED SO THAT THE ARM FOLLOWS THE CAMERA NOT THE 
+		//startPosition = new Vector3(thePlayer.position.x + .9f, thePlayer.position.y + .3f, thePlayer.position.z + .5f);
 
 		switch(theHand.GetComponent<HandController>().getPosition()){
 		case 0: poseMade = false;
@@ -66,11 +66,15 @@ public class CastingArm : MonoBehaviour {
 			break;
 		}
 		
-		
-
 		if (Input.GetMouseButton(0)){
 			//While clicking, the 'arm' moves forward slightly, to simulate being extended
-			transform.position = new Vector3(transform.position.x,transform.position.y,Mathf.Lerp(transform.position.z, startPosition.z + .5f, Time.deltaTime * damping));
+			
+			//CHANGE THIS SO THAT THERE IS A STARTINGPOSITION THAT DYNAMICALLY UPDATES AND A GOAL POSITION AND JUST LERP INSTEAD OF THIS MONSTROSITY
+			//transform.position = new Vector3(transform.position.x,transform.position.y,Mathf.Lerp(transform.position.z, startPosition.z + .5f, Time.deltaTime * damping));
+			
+			
+			goalPosition = new Vector3(dummyArm.localPosition.x, dummyArm.localPosition.y, dummyArm.localPosition.z + forwardAmount);
+			transform.localPosition = Vector3.Lerp(transform.localPosition, goalPosition, Time.deltaTime * damping);
 			
 //			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 //			//RaycastHit rayHit = new RaycastHit();
@@ -94,11 +98,17 @@ public class CastingArm : MonoBehaviour {
 		} else {
 			//If the arm is extended, on release it returns to its base position
 //			StopCoroutine("Cast");
-			transform.position = Vector3.Lerp(transform.position, startPosition, Time.deltaTime * damping);
+			transform.localPosition = Vector3.Lerp(transform.localPosition, dummyArm.localPosition, Time.deltaTime * damping);
 		}
+		
+		
 	}
 	
-	
+	void CastMagic(){
+		
+		
+		
+	}
 	
 //	IEnumerator Cast(){
 //		//Catches type exceptions, so that the Instantiate command doesn't execute

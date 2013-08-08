@@ -13,7 +13,8 @@ public class MovementController : MonoBehaviour {
 	bool movementMode = true; //Movement mode is initially enabled by default
 	bool moving = false;
 	float jumpDamping = .5f;
-//	float mouseTurnSpeed = 100f;
+	float mouseXSpeed = 100f;
+	float mouseYSpeed = 200f;
 	
 	Vector3 moveVectorVert, moveVectorHoriz;
 
@@ -46,7 +47,18 @@ public class MovementController : MonoBehaviour {
 		}
 		
 		//Turning is determined by mouse movement
-		//transform.Rotate (-Input.GetAxis ("Mouse Y")*Time.deltaTime  * mouseTurnSpeed,Input.GetAxis("Mouse X")*Time.deltaTime * mouseTurnSpeed,0f);
+		transform.Rotate (0f,Input.GetAxis("Mouse X")*Time.deltaTime * mouseXSpeed,0f);
+		Camera.mainCamera.transform.Rotate (-Input.GetAxis ("Mouse Y")*Time.deltaTime  * mouseYSpeed,0f,0f);
+		/*Hide cursor
+		 * if (Input.mousebuttondown(0) == true{
+		 * Screen.lockCursor = true;
+		 * }
+		 * Locks the cursor in the game and hides it
+		 * 
+		 * Pitch camera up and down with X, make a child parented to the capsule to control Y rotation
+		 * 
+		 * */
+		
 		
 		Ray ray = new Ray(transform.position, -transform.up); //Ray for determining if the player is on the ground
 		
