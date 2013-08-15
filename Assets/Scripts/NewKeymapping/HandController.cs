@@ -4,7 +4,7 @@ using System.Collections;
 public class HandController : MonoBehaviour {
 	
 	/*
-	 * This script controlls the movements of the hand based on WASD (in magic mode) and calculates which
+	 * This script controlls the movements of the hand based on WASD and calculates which
 	 * kind of magic the player is casting based on the position of the hand.
 	 * */
 	public GameObject player;
@@ -91,14 +91,6 @@ public class HandController : MonoBehaviour {
 			
 			transform.position = Vector3.Lerp(transform.position, goal.position, Time.deltaTime * damping);
 			transform.rotation = Quaternion.Slerp(transform.rotation, goal.rotation, Time.deltaTime * damping);
-			
-//			Debug.Log (poseNumber);
-			
-//		} else {
-//			poseNumber = 0;
-//			transform.position = Vector3.Lerp (transform.position, baseHand.position, Time.deltaTime * damping);	
-//			transform.rotation = Quaternion.Slerp(transform.rotation, baseHand.rotation, Time.deltaTime * damping);
-//		}
 		
 	
 	}

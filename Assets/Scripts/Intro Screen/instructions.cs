@@ -14,22 +14,30 @@ public class instructions : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		directions.text  = ("You are a genie separated from your lamp."); 
+		directions.text += ("\n You must search the maze for your home.");
+		directions.text += ("\n There are many doors blocking your path, and they will only open if you use");
+		directions.text += ("\n the correct combination of magic. As a mighty genie, you command the");
+		directions.text += ("\n phenomenol cosmic powers of Earth, Fire, and Water.");
+		directions.text += ("\n");
+		directions.text += ("\n");
+		directions.text += ("\n");
+		directions.text += ("\n");
+		directions.text += ("\n");
+		directions.text += ("\n");
+		directions.text += ("\n You can choose which spell to cast with the W, A, S, and D keys.");
+		directions.text += ("\n Use the mouse to cast your magic. Right click to aim, left click to cast.");
+		directions.text += ("\n Hold down Space to move forward.");
+		directions.text += ("\n Be warned! You cannot survive for long away from your lamp.");
+		directions.text += ("\n If you don't find your lamp in time, you will lose!");
+		directions.text += ("\n");
+		directions.text += ("\n");
+		directions.text += ("\n Press Enter when you are ready to begin.");
+
 		
-		directions.text = ("Your goal is to get to the Green Room on the other side of the maze.");
-		directions.text += ("\n There are many twists and turns, plus there are doors blocking your way.");
-		directions.text += ("\n Each door can be opened with the right combination of spells.");
-		directions.text += ("\n You command the forces of Earth, Fire, and Water.");		
-		directions.text += ("\n Pick which spell you want to cast with your left arm, ");
-		
-		directions.text += ("\n and cast with your right.");
-		directions.text += ("\n (Press Space to Continue)");
-		
-		if (Input.GetKeyDown (KeyCode.Space)){
-			directions.text = ("Use the WASD keys to control your gestures. \n Different gestures result in different magic.");
-			directions.text += ("\n Right click with the mouse to aim your casting arm.");
-			directions.text += ("\n While you are making a gesture, left click to cast a spell.");
-			directions.text += ("\n Hold down space to move forwards.");
-			directions.text += ("\n Click anywhere to begin.");
+		if (Input.GetKeyDown (KeyCode.Return)){
+			
+			Application.LoadLevel("MainGame");
 			
 		}
 		

@@ -21,29 +21,32 @@ public class MovementController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		
+		//If the game is in the play state, the player can move and turn
 		if (Input.GetMouseButton(0)){
 		  Screen.lockCursor = true;
 		  }
+		if (MainController.instance.running){
+			
+			
 		
-		
-		//Turning is determined by mouse movement
-		transform.Rotate (0f,Input.GetAxis("Mouse X")*Time.deltaTime * mouseXSpeed,0f);
-		
-		//TODO figure out how to keep the camera from rotating too far
-		Camera.mainCamera.transform.Rotate (-Input.GetAxis ("Mouse Y")*Time.deltaTime  * mouseYSpeed,0f,0f);
-		
-		if (Input.GetKey(KeyCode.Space)){ //If space is pressed down					
-					
-//			if (rigidbody.velocity.magnitude > .5){
-//				moving = true;
-//			}
-					
-			moveVectorVert = transform.forward;	//Move Forward		
-			} else if (Input.GetKeyUp (KeyCode.Space)){ //Else when space is released
-//				moving = false;
-				moveVectorVert *= 0;	//Forward movement = 0
-			}
+			//Turning is determined by mouse movement
+			transform.Rotate (0f,Input.GetAxis("Mouse X")*Time.deltaTime * mouseXSpeed,0f);
+			
+			//TODO figure out how to keep the camera from rotating too far
+			Camera.mainCamera.transform.Rotate (-Input.GetAxis ("Mouse Y")*Time.deltaTime  * mouseYSpeed,0f,0f);
+			
+			Debug.Log(Camera.mainCamera.transform.eulerAngles.x);
+			
+			
+			if (Input.GetKey(KeyCode.Space)){ //If space is pressed down					
+						
+						
+				moveVectorVert = transform.forward;	//Move Forward		
+				} else if (Input.GetKeyUp (KeyCode.Space)){ //Else when space is released
+	//				moving = false;
+					moveVectorVert *= 0;	//Forward movement = 0
+				}
+		}
 		}
 
 //	}

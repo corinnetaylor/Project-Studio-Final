@@ -49,30 +49,30 @@ public class CastingArm : MonoBehaviour {
 		case 0: poseMade = false;
 			break;
 			//Earth
-		case 1: magicType = 1;
+		case 1: magicType = 1; //Lowered, Left
 			poseMade = true;
 			break;
-		case 2: magicType = 1;
+		case 2: magicType = 2; //Lowered
 			poseMade = true;
 			break;
-		case 3: magicType = 1;
+		case 3: magicType = 3; //Lowered, right
 			poseMade = true;
 			break;
 			//Fire
-		case 4: magicType = 2;
+		case 4: magicType = 1; //Left
 			poseMade = true;
 			break;
-		case 5: magicType = 2;
+		case 5: magicType = 3; //Right
 			poseMade = true;
 			break;
 			//Water
-		case 6: magicType = 3;
+		case 6: magicType = 1;//Raised left
 			poseMade = true;
 			break;
-		case 7: magicType = 3;
+		case 7: magicType = 2;//Raised
 			poseMade = true;
 			break;
-		case 8: magicType = 3;
+		case 8: magicType = 3; //Raised right
 			poseMade = true;
 			break;
 		}

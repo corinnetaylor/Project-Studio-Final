@@ -75,7 +75,7 @@ public class OpenDoor : MonoBehaviour {
 			if (transform.position.y >= limit){
 				startDoorOpen = false;
 				startDoorClose = true;
-				MainController.instance.IncrementDoorUp();
+//				MainController.instance.IncrementDoorUp();
 			}
 		}
 		
