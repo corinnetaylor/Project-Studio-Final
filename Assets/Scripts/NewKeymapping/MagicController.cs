@@ -3,11 +3,11 @@ using System.Collections;
 
 public class MagicController : MonoBehaviour {
 	
-	public GameObject earthMagic;
-	public GameObject fireMagic;
-	public GameObject waterMagic;
+	public Rigidbody earthMagic;
+	public Rigidbody fireMagic;
+	public Rigidbody waterMagic;
 	
-	GameObject theMagic;
+	Rigidbody theMagic;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,15 +17,17 @@ public class MagicController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+//		transform.(Camera.mainCamera.transform.rotation.eulerAngles.x, player.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+		
 		if (Input.GetKeyDown(KeyCode.U)){
 			
-			cast (Random.Range(1,4), transform.position, Vector3.zero);
+			Cast (Random.Range(1,4), Vector3.zero);
 			
 		}
 		
 	}
 	
-		public void cast(int type, Vector3 startPosition, Vector3 destination){		
+		public void Cast(int type, Vector3 destination){		
 		
 		//Catches type exceptions, so that the Instantiate command doesn't execute
 		//THESE ARE CURRENTLY HARDCODED AND NEED TO BE CHANGED WITH DIFFERENT KINDS OF MAGIC
@@ -42,6 +44,9 @@ public class MagicController : MonoBehaviour {
 			break;
 		}
 		
-		theMagic = Instantiate(theMagic, startPosition, Quaternion.identity) as GameObject;
+		
+		//Issue with using the casting arm is that the cylinder is set at 90 degrees, so it's throwing the rotation off
+		theMagic = Instantiate(theMagic, transform.position, transform.rotation) as Rigidbody;
+		theMagic.GetComponent<Magic>().SetDestination(destination);
 	}
 }

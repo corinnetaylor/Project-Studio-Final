@@ -3,39 +3,34 @@ using System.Collections;
 
 public class Magic : MonoBehaviour {
 	
-	//This script needs work
-	
-//	public Rigidbody earthMagic;
-//	public Rigidbody fireMagic;
-//	public Rigidbody waterMagic;
-//	
-//	Rigidbody theMagic;
-//	
-//	float speed = 100;
-//	
-//	public Transform theArm;
 	Vector3 destination;
 	float damping = 5f;
-	
-	Magic(Vector3 theDestination){
-		destination = theDestination;
-	}
-	
 
 	
 	// Use this for initialization
 	void Start () {
-	
+		Destroy(gameObject, .5f);
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+//		Debug.Log (renderer.material.color.ToString());
 	
 		if (destination == Vector3.zero){
-			transform.localPosition += Vector3.forward;
+//			rigidbody.AddForce(Vector3.forward, ForceMode.VelocityChange);
+			transform.Translate(Vector3.forward, Space.Self);
 		} else {
 			transform.localPosition = Vector3.Lerp (transform.localPosition, destination, Time.deltaTime * damping);
 		}
 	}
 	 
+	public void SetDestination(Vector3 theDestination){
+	
+		destination = theDestination;
+	
+	}
+	
 }
+

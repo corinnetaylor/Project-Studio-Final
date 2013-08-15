@@ -8,13 +8,10 @@ public class HandController : MonoBehaviour {
 	 * kind of magic the player is casting based on the position of the hand.
 	 * */
 	public GameObject player;
+	public Transform baseHand, up, down, left, right, upLeft, upRight, downLeft, downRight;
+	Transform goal;
 	bool movementMode;
-	
-	//Variables used in rotating the hand
-	Quaternion goalRotation, baseRotation, startingRotation;
-	float xTurnAmount, zTurnAmount = 0;
-	float rotationAmount = 15f;
-	float rotationSpeed = 10;
+	float damping = 5f;
 	
 	//Variables used for determining the position of the hand
 	int poseNumber = 0; //default 0, no pose is being made
@@ -26,20 +23,15 @@ public class HandController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		startingRotation = transform.rotation; //This one never changes, it is the base rotation that goalRotation is calculated by
-		baseRotation = transform.rotation; //This changes based on the current rotation of the hand
-		goalRotation = transform.rotation; //This changes depending on which pose the player is making, and returns to startingRotation if no button is pressed
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		movementMode = player.GetComponent<MovementController>().getMode();
-		
-		
-		
-		//TODO: Have the hand raise into FOV in Magic Mode
-		
-		if (!movementMode){
+//		movementMode = player.GetComponent<MovementController>().getMode();
+//		
+//		
+//		if (!movementMode){
 			//Bools for shortening the pose calculation code
 			if (Input.GetKey (KeyCode.W)){
 				wDown = true;
@@ -62,31 +54,6 @@ public class HandController : MonoBehaviour {
 				dDown = false;	
 			}
 			
-			
-			//Determine Hand Rotation
-			if (Input.GetKey(KeyCode.W)){ //Hand pull back (fingers spread and back)
-				xTurnAmount = rotationAmount;							
-			} else if (Input.GetKey(KeyCode.S)){ //Hand press down (making a fist)
-				xTurnAmount = -rotationAmount;
-			} else {
-				xTurnAmount = 0;	
-			}
-			
-			if (Input.GetKey(KeyCode.A)){ //Tilt hand left
-				zTurnAmount = rotationAmount;
-			} else if (Input.GetKey(KeyCode.D)){ //Tilt hand right
-				zTurnAmount = -rotationAmount;
-			} else {
-				zTurnAmount = 0;
-			}
-			
-			baseRotation = transform.rotation;
-			goalRotation = Quaternion.Euler(startingRotation.x + xTurnAmount, 
-											startingRotation.y, 
-											startingRotation.z + zTurnAmount);
-			
-			transform.rotation = Quaternion.Slerp(baseRotation, goalRotation, Time.deltaTime * rotationSpeed);
-
 			//Pose Calculations			
 			//There are 8 possible poses
 			//Two options, to make poses based on keys being pressed or on the actual rotation of the hand, for now, pose is based on
@@ -94,30 +61,44 @@ public class HandController : MonoBehaviour {
 			
 			if (!wDown && sDown && aDown && !dDown) { //Lowered tilted left
 				poseNumber = 1;
+				goal = downLeft;
 			} else if (!wDown && sDown && !aDown && !dDown) { //Lowered, not tilted
 				poseNumber = 2;
+				goal = down;
 			} else if (!wDown && sDown && !aDown && dDown) { //Lowered tilted right
 				poseNumber = 3;
+				goal = downRight;
 			} else if (!wDown && !sDown && aDown && !dDown) { //Tilted left
 				poseNumber = 4;
+				goal = left;
 			} else if (!wDown && !sDown && !aDown && dDown) { //Tilted right
 				poseNumber = 5;
+				goal = right;
 			} else if (wDown && !sDown && aDown && !dDown) { //Raised tilted left
 				poseNumber = 6;
+				goal = upLeft;
 			} else if (wDown && !sDown && !aDown && !dDown) { //Raised not tilted
 				poseNumber = 7;
+				goal = up;
 			} else if (wDown && !sDown && !aDown && dDown) { //Raised tilted right
 				poseNumber = 8;
+				goal = upRight;
 			} else if (!wDown && !sDown && !aDown && !dDown){ //The hand is not being rotated
 				poseNumber = 0;
+				
+				goal = baseHand;
 			}
 			
-			Debug.Log (poseNumber);
+			transform.position = Vector3.Lerp(transform.position, goal.position, Time.deltaTime * damping);
+			transform.rotation = Quaternion.Slerp(transform.rotation, goal.rotation, Time.deltaTime * damping);
 			
-		} else {
-			poseNumber = 0;
-			//TODO: Have the hand lower out of FOV in Movement Mode
-		}
+//			Debug.Log (poseNumber);
+			
+//		} else {
+//			poseNumber = 0;
+//			transform.position = Vector3.Lerp (transform.position, baseHand.position, Time.deltaTime * damping);	
+//			transform.rotation = Quaternion.Slerp(transform.rotation, baseHand.rotation, Time.deltaTime * damping);
+//		}
 		
 	
 	}

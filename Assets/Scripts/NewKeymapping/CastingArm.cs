@@ -15,9 +15,18 @@ public class CastingArm : MonoBehaviour {
 	public Transform theHand;
 	public Transform thePlayer;
 	public Transform dummyArm;
+	public Transform waterSound;
+	public GameObject magicController;
 	
-	//int colorPicker = 0;
+	public Transform gem1;
+	public Transform gem2;
+	public Transform gem3;
+	public Transform gem4;
+	public Transform gem5;
+	public Transform gem6;
+	
 	bool poseMade = false;
+	bool extended = false;
 	Vector3 startPosition;
 	float damping = 5;
 	float forwardAmount = .5f;
@@ -28,18 +37,18 @@ public class CastingArm : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {		
-		//Updates the base position of the arm each frame
-		//THIS HARDCODING NEEDS TO BE CHANGED SO THAT THE ARM FOLLOWS THE CAMERA NOT THE 
-		//startPosition = new Vector3(thePlayer.position.x + .9f, thePlayer.position.y + .3f, thePlayer.position.z + .5f);
+		
+		//Updates the status of the hand spell picking hand each frame
 
 		switch(theHand.GetComponent<HandController>().getPosition()){
 		case 0: poseMade = false;
-//			theLight.enabled = false;//Have to have this in here or else the light will remain on throughout different poses
 			break;
+			//Earth
 		case 1: magicType = 1;
 			poseMade = true;
 			break;
@@ -49,12 +58,14 @@ public class CastingArm : MonoBehaviour {
 		case 3: magicType = 1;
 			poseMade = true;
 			break;
+			//Fire
 		case 4: magicType = 2;
 			poseMade = true;
 			break;
 		case 5: magicType = 2;
 			poseMade = true;
 			break;
+			//Water
 		case 6: magicType = 3;
 			poseMade = true;
 			break;
@@ -66,71 +77,83 @@ public class CastingArm : MonoBehaviour {
 			break;
 		}
 		
-		if (Input.GetMouseButton(0)){
-			//While clicking, the 'arm' moves forward slightly, to simulate being extended
+
+		
+		//Right mouse button toggles aiming
+		if (Input.GetMouseButtonDown (1)){
+			if (!extended){
+				extended = true;
+				Debug.Log("Arm is out");
+
+			} else if(extended) {
+				extended = false;
+				Debug.Log ("Arm is in");
+			}	
+		}
+		
+		
+		if (poseMade){
 			
-			//CHANGE THIS SO THAT THERE IS A STARTINGPOSITION THAT DYNAMICALLY UPDATES AND A GOAL POSITION AND JUST LERP INSTEAD OF THIS MONSTROSITY
-			//transform.position = new Vector3(transform.position.x,transform.position.y,Mathf.Lerp(transform.position.z, startPosition.z + .5f, Time.deltaTime * damping));
+			switch(magicType){
+		
+			case 1: gem1.renderer.material.color = Color.green;
+				gem2.renderer.material.color = Color.green;
+				gem3.renderer.material.color = Color.green;
+				gem4.renderer.material.color = Color.green;
+				gem5.renderer.material.color = Color.green;
+				gem6.renderer.material.color = Color.green;
+			break;
+			case 2: gem1.renderer.material.color = Color.red;
+				gem2.renderer.material.color = Color.red;
+				gem3.renderer.material.color = Color.red;
+				gem4.renderer.material.color = Color.red;
+				gem5.renderer.material.color = Color.red;
+				gem6.renderer.material.color = Color.red;
+			break;
+			case 3: gem1.renderer.material.color = Color.blue;
+				gem2.renderer.material.color = Color.blue;
+				gem3.renderer.material.color = Color.blue;
+				gem4.renderer.material.color = Color.blue;
+				gem5.renderer.material.color = Color.blue;
+				gem6.renderer.material.color = Color.blue;
+			break;
+			}
 			
+			} else {
+				gem1.renderer.material.color = Color.black;
+				gem2.renderer.material.color = Color.black;
+				gem3.renderer.material.color = Color.black;	
+				gem4.renderer.material.color = Color.black;
+				gem5.renderer.material.color = Color.black;
+				gem6.renderer.material.color = Color.black;	
+		}
+		
+		//The arm has to be aimed to cast
+		if (extended){
+			//If aimed, the arm extends outward
+				goalPosition = new Vector3(dummyArm.localPosition.x, dummyArm.localPosition.y, dummyArm.localPosition.z + forwardAmount);
+				transform.localPosition = Vector3.Lerp(transform.localPosition, goalPosition, Time.deltaTime * damping);
 			
-			goalPosition = new Vector3(dummyArm.localPosition.x, dummyArm.localPosition.y, dummyArm.localPosition.z + forwardAmount);
-			transform.localPosition = Vector3.Lerp(transform.localPosition, goalPosition, Time.deltaTime * damping);
-			
-//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//			//RaycastHit rayHit = new RaycastHit();
-//			
-//			if (Physics.Raycast(ray, /*out rayHit, */1000f)){ //the 'out' command tells unity to populate the variable rayHit with data 
-//				
-//							
-//			}
-			
-			if (poseMade){
+			//If left mouse button is then clicked
+			if (Input.GetMouseButtonDown(0)){		
+				//And a pose is being made with the Spell-Picking hand
+				if (poseMade){
 					
-					//Instantiate objects here
-//					StartCoroutine("Cast");
-//					theSpell.GetComponent<Magic>().cast (magicType, startPosition);
-				Debug.Log ("Casting magic type " + magicType);
-				if (!transform.audio.isPlaying){
-					transform.audio.Play();	
+					//Magic will be cast
+					magicController.GetComponent<MagicController>().Cast (magicType, Vector3.zero);
+//					Debug.Log ("Casting magic type " + magicType);
+					if (magicType == 2){
+						transform.audio.Play();	
+					} else if (magicType == 3){
+						waterSound.audio.Play ();
+					}
 				}
-				}
-			
+				
+			} 
 		} else {
-			//If the arm is extended, on release it returns to its base position
-//			StopCoroutine("Cast");
-			transform.localPosition = Vector3.Lerp(transform.localPosition, dummyArm.localPosition, Time.deltaTime * damping);
+			transform.localPosition = Vector3.Lerp(transform.localPosition, dummyArm.localPosition, Time.deltaTime * damping);	
 		}
 		
 		
 	}
-	
-	void CastMagic(){
-		
-		
-		
-	}
-	
-//	IEnumerator Cast(){
-//		//Catches type exceptions, so that the Instantiate command doesn't execute
-//		//THESE ARE CURRENTLY HARDCODED AND NEED TO BE CHANGED WITH DIFFERENT KINDS OF MAGIC
-//		if (magicType > 3 || magicType < 1){
-//			
-//		}
-//		while (true){
-//			switch (magicType){
-//			case 1: theMagic = earthMagic;
-//				break;
-//			case 2: theMagic = fireMagic;
-//				break;
-//			case 3: theMagic = waterMagic;
-//				break;
-//			}
-//			
-//			Instantiate(earthMagic, new Vector3(transform.position.x, transform.position.y, transform.position.z + 5), Quaternion.identity);
-//			theMagic.AddForce(Input.mousePosition);
-//			
-//			yield return new WaitForSeconds(5f); //Time to wait between each instantiated spell
-//		}	
-//		
-//	}
 }
