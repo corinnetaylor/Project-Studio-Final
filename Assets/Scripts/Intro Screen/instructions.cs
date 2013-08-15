@@ -18,7 +18,7 @@ public class instructions : MonoBehaviour {
 		directions.text += ("\n You must search the maze for your home.");
 		directions.text += ("\n There are many doors blocking your path, and they will only open if you use");
 		directions.text += ("\n the correct combination of magic. As a mighty genie, you command the");
-		directions.text += ("\n phenomenol cosmic powers of Earth, Fire, and Water.");
+		directions.text += ("\n phenomenal cosmic powers of Earth, Fire, and Water.");
 		directions.text += ("\n");
 		directions.text += ("\n");
 		directions.text += ("\n");
